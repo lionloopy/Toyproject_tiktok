@@ -41,7 +41,7 @@ for music in a:
 
 
 @app.route("/music", methods=["GET"])
-def movie_get():
+def music_get():
     music_list = list(db.musics.find({}, {'_id': False}))
     return jsonify({'musics':music_list})
 
