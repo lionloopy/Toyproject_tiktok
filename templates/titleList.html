@@ -50,21 +50,20 @@
                 data: {},
                 success: function (response) {
                     let rows = response['musics']
-                    let count
                     for(let i = 0; i < rows.length; i++){
-                            count += 1
                             let rank = rows[i]['rank']
                             let image = rows[i]['image']
                             let title = rows[i]['title']
                             let singer = rows[i]['singer']
-
+                            let album = rows[i]['album']
 
                             let temp_html=`<tr id="table">
-                                                <th scope="col" id="num" style="width: 80px;">${count}${rank}</th>
-                                                <th scope="col" id="title" colspan="2" style="width: 100px">${image,title,singer}</th>
-                                                <th id="singer" scope="col"></th>
-                                                <th id="album" scope="col"></th>
-                                                <th id="heart" scope="col">좋아요</th>
+                                                <th scope="col" id="num" style="width: 80px;">${rank}</th>
+                                                <th id="img" scope="col" colspan="3" style="50px">${image}</th>
+                                                <th scope="col" id="title" style="width: 200px">${title}</th>
+                                                <th id="singer" scope="col" style="width: 50px">${singer}</th>
+                                                <th id="album" scope="col">${album}</th>
+                                                <th id="heart" scope="col" style="width: 75px"></th>
                                             </tr>`
 
                             $('#music-box').append(temp_html)
@@ -87,7 +86,8 @@
         <thead>
         <tr id="table">
             <th scope="col" id="num" style="width: 80px;">번호</th>
-            <th scope="col" id="title" colspan="2" style="width: 100px">곡정보</th>
+            <th id="img" scope="col" colspan="3"></th>
+            <th scope="col" id="title"  style="width: 100px">곡정보</th>
             <th id="singer" scope="col"></th>
             <th id="album" scope="col">앨범</th>
             <th id="heart" scope="col">좋아요</th>
