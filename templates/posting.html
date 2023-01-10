@@ -22,7 +22,7 @@
             align-items: center;
             justify-content: center;
             display: flex;
-            padding:10px;
+            padding: 50px;
             margin: auto;
         }
 
@@ -43,32 +43,33 @@
         .post >.music_card >.album {
             width: 95%;
             max-width: 300px;
-            margin: 20px;
+            padding: 20px;
+            margin: 0 0 20px 0;
 
             display: flex;
 
             float: left;
         }
 
-        .post >.music_card > .title {
+        .post >.music_card > .card {
             max-width: 500px;
             width: 95%;
             margin: 20px;
-
-            display: flex;
-
-            float: right;
-        }
-
-        .post >.music_card .desc {
-            max-width: 500px;
-            width: 95%;
-            margin: 0 0 30px 30px;
-
+            padding: 25px;
 
             float: right;
-            display: flex;
+
+            text-align: center;
         }
+
+        /*.post >.music_card .desc {*/
+        /*    max-width: 500px;*/
+        /*    width: 95%;*/
+        /*    margin: 0 0 30px 30px;*/
+
+        /*    float: right;*/
+        /*    display: flex;*/
+        /*}*/
 
         .post > .music_comments {
             margin-top: 20px;
@@ -93,6 +94,49 @@
 
     </style>
 
+    <script>
+        $(document).ready(function () {
+            show_comments();
+        });
+
+        function posting() {
+            if (confirm("코멘트를 저장하시겠습니까?")) {
+                let comment = $('#comment').val()
+
+                $.ajax({
+                    type: "POST",
+                    url: "/posting",
+                    data: {comment_give: comment},
+                    success: function (response) {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
+                });
+            } else {
+                alert("취소하였습니다!");
+            }
+        }
+
+        function show_comments() {
+            $.ajax({
+                type: "GET",
+                url: "/posting",
+                data: {},
+                success: function (response) {
+                    let rows = response['comments']
+                    for(let i = 0; i < rows.length; i++) {
+                        let comment = rows[i]['comment']
+
+                        let temp_html = `<li class="list-group-item"><span class="fw-bold">퐝원준 : </span> ${comment}</li>`
+
+                        $('#comments-list').append(temp_html)
+                    }
+                }
+            });
+       }
+
+
+    </script>
 
 <body>
 
@@ -105,43 +149,35 @@
                     <img src="https://i.ytimg.com/vi/2Kff0U8w-aU/maxresdefault.jpg" alt="뉴진스 앨범 omg" height="300" width="350">
                 </div>
 
-                <div class="title">
-                    <h3>뉴진스 - ditto</h3>
+                 <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">뉴진스 - ditto</h3>
+                        <p class="card-text text-muted">
+                            앨범명 : "OMG"
+                        </p>
+                    </div>
                 </div>
 
-                <div class="desc">
-                    <p>선공개 곡 'Ditto'는 버니즈와 함께 맞는 첫 겨울을 위해 특별히 준비한 수록곡이다.
-                    따뜻하고 포근한 Choir Pad 사운드와 Classical 한 Old School Drum Break가 매력적인 곡으로, Baltimore Club Dance Music 장르를
-                    NewJeans만의 감성으로 재해석했다. 애틋함과 두근거림이 다양한 음악적 요소 속에 녹아있는데, 특히 곡의 시작과 함께 등장하는 몽환적이면서도 독특한 허밍은 NewJeans의 겨울을 함축한다.
-                    </p>
-                </div>
             </div>
 
             <div class="music_comments">
                 <div class="posting">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="이 음악 어땠어?" aria-label="댓글">
-                        <button class="btn btn-outline-secondary" type="button" id="comments-button">추가하기</button>
+                        <input type="text" class="form-control" placeholder="이 음악 어땠어?" aria-label="댓글" id="comment">
+                        <button class="btn btn-outline-primary" type="button" id="comments-button" onclick="posting()">추가하기</button>
                     </div>
                 </div>
 
                 <div class="comments">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><span class="fw-bold">퐝원준 : </span> 개 쩖</li>
-                        <li class="list-group-item"><span class="fw-bold">매튜웽 : </span>대세는 뉴진스!!</li>
-                        <li class="list-group-item"><span class="fw-bold">공대 : </span>너무 좋아 뉴진스!!</li>
+                    <ul class="list-group list-group-flush" id="comments-list">
+
                     </ul>
                 </div>
             </div>
 
-
         </div>
 
-
-
     </div>
-
-
 
 
 </body>
