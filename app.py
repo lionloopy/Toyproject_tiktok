@@ -1,23 +1,15 @@
-import jwt
-import datetime
-import hashlib
-import certifi
+import jwt, datetime, hashlib, certifi
 
 from flask import Flask, render_template, request, jsonify, url_for, redirect
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@cluster0.fgag4po.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://yunseo:sparta@cluster0.6bemlvq.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 # from bs4 import BeautifulSoup
 
-from datetime import datetime, timedelta
-
-from pymongo import MongoClient
-import certifi
-
-# 로그인
+##### 로그인
 SECERY_KEY = 'SPARTA'
 
 @app.route('/')
@@ -36,28 +28,29 @@ def home():
 def login():
     msg = request.args.get('msg')
     return render_template('index.html', msg=msg)
-@app.route("/sign_in", methods=["POST"])
+
+@app.route("/api/sign_in", methods=["POST"])
 def sign_in():
-    username_receive = request.form['username_give']
+    email_receive = request.form['email_give']
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username':username_receive,'password':pw_hash})
+    result = db.users.find_one({'email': email_receive, 'password': pw_hash})
 
     if result is not None:
         payload = {
-            'id':username_receive,
+            'id': email_receive,
             'exp': datetime.utcnow() + datetime.timedelta(seconds=60 * 60 * 24)
         }
         token = jwt.encode(payload, SECERY_KEY, algorithm='HS256')
-        return jsonify({'result':'success','token':token, 'msg':'로그인 성공!'})
+        return jsonify({'result': 'success','token': token, 'msg': '로그인 성공!'})
     else:
-        return jsonify({'result': 'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
+        return jsonify({'result': 'fail', 'msg': '아이디 또는 비밀번호가 일치하지 않습니다.'})
 
-# 회원가입
+##### 회원가입
 ca = certifi.where()
 
-client = MongoClient('mongodb+srv://seungho:19960724@cluster0.y2z4pif.mongodb.net/Cluster0?retryWrites=true&w=majority',tlsCAFile=ca)
+client = MongoClient('mongodb+srv://yunseo:sparta@cluster0.6bemlvq.mongodb.net/?retryWrites=true&w=majority',tlsCAFile=ca)
 db = client.dbsparta
 
 @app.route('/signup')
@@ -70,11 +63,11 @@ def web_signup_post():
     email_receive = request.form['email_give']
     password_receive = request.form['password_give']
     doc = {
-        'name':name_receive,
-        'email':email_receive,
-        'password':password_receive
+        'name': name_receive,
+        'email': email_receive,
+        'password': password_receive
     }
-    db.signup.insert_one(doc)
+    db.users.insert_one(doc)
 
     return jsonify({'msg': '가입 완료'})
 
