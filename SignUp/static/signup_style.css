@@ -1,0 +1,36 @@
+#top {
+    height: 150px;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    vertical-align: 340px;
+    font-size: 60px;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+#form input {
+    margin-top: 30px;
+    margin-left: 20px;
+    transition: all 0.2s ease-in-out;
+}
+#form button {
+    margin-top: 60px;
+}
+.wrong{
+    color: red;
+}
+
+.active {
+    opacity: 1;
+    transform: scale(1.5);
+}
+
+.semi-active {
+    opacity: 0.75;
+    transform: scale(1.25);
+}
