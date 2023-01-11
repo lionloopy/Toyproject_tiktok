@@ -134,6 +134,16 @@ def posting_get():
     # comment_list = list(db.comments.find({}, {'_id': False}))
     return jsonify({'musics': music_list})
 
+# @app.route("/posting_detail", methods=["GET"])
+# def posting_detail_get():
+#
+#     rank =
+#     music = db.musics.find_one({'rank': rank})
+#
+#     # comment_list = list(db.comments.find({}, {'_id': False}))
+#
+#     return jsonify({'musics': music_list})
+
 
 @app.route("/posting", methods=["POST"])
 def comment_post():

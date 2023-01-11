@@ -60,7 +60,7 @@
                         let singer = rows[i]['singer'];
                         let album = rows[i]['album'];
 
-                        let temp_html = `<tr id="table" onclick="show_detail()">
+                        let temp_html = `<tr id="table" onclick="show_detail(${rank})">
                                                 <th scope="col" id="num" style="width: 80px;">${rank}</th>
                                                 <th id="image" scope="col" colspan="3" style="width: 25px;height: 25px;"><img src="${image}"></th>
                                                 <th scope="col" id="title" style="width: 200px">${title}</th>
@@ -70,14 +70,11 @@
                         $('#music-box').append(temp_html)
                     }
                 }
-
             })
         }
-
-        function show_detail() {
-            alert("안녕!!")
-            window.location.href='/page/detail?id=${rank}'
-        }
+         function show_detail() {
+            // window.location.href='/page/detail?'
+         }
 
     </script>
 </head>
