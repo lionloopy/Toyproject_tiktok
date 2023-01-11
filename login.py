@@ -65,12 +65,12 @@ client = MongoClient('mongodb+srv://yunseo:sparta@cluster0.6bemlvq.mongodb.net/?
                      tlsCAFile=ca)
 db = client.dbsparta
 
-
+#회원가입 버튼 클릭시 이동
 @app.route('/signup')
 def sign_up():
     return render_template('signup_index.html')
 
-
+#로그인 완료 시 메인 페이지로 이동
 @app.route('/page/main')
 def page_main():
     return render_template('titleList.html')
@@ -94,31 +94,7 @@ def web_signup_get():
     user_list = list(db.users.find({}, {'_id': False}))
     return jsonify({'users': user_list})
 
-
-@app.route('/playList')
-def posting():
-    return render_template('posting.html')
-
-
-@app.route("/posting", methods=["POST"])
-def comment_post():
-    # name_receive = request.form['name_give']
-    comment_receive = request.form['comment_give']
-    comment_list = list(db.comments.find({}, {'_id': False}))
-    count = len(comment_list) + 1
-
-    doc = {'num': count, 'comment': comment_receive}
-    db.comments.insert_one(doc)
-
-    return jsonify({'msg': '저장되었습니다!'})
-
-
-@app.route("/posting", methods=["GET"])
-def posting_get():
-    comment_list = list(db.comments.find({}, {'_id': False}))
-    return jsonify({'comments': comment_list})
-
-
+##### 메인페이지
 @app.route("/music", methods=["POST"])
 def music_post():
     url_receive = request.form['url_give']
@@ -157,6 +133,48 @@ for music in a:
 def music_get():
     music_list = list(db.musics.find({}, {'_id': False}))
     return jsonify({'musics': music_list})
+
+##### 상세페이지
+@app.route('/page/detail')
+def posting():
+   return render_template('posting.html')
+
+@app.route("/posting", methods=["GET"])
+def posting_get():
+    music_list = list(db.musics.find({}, {'_id': False}))
+    # comment_list = list(db.comments.find({}, {'_id': False}))
+    return jsonify({'musics': music_list})
+
+
+@app.route("/posting", methods=["POST"])
+def comment_post():
+    # name_receive = request.form['name_give']
+    comment_receive = request.form['comment_give']
+    comment_list = list(db.comments.find({}, {'_id': False}))
+    count = len(comment_list) + 1
+
+    doc = {
+        'num': count,
+        'comment': comment_receive
+    }
+    db.comments.insert_one(doc)
+
+    return jsonify({'msg': '저장되었습니다!'})
+
+@app.route("/posting/delete", methods=["POST"])
+def comment_delete():
+
+    number_receive = request.form['number_give']
+    comments_receive = request.form['comments_give']
+
+    doc = {
+        'num' : number_receive,
+        'comment' : comments_receive
+    }
+
+    db.comments.delete_one(doc)
+
+    return jsonify({'msg': '삭제되었습니다!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
