@@ -59,7 +59,7 @@ function save_account() {
         }
     }
 
-    // 약관 동의 제어
+    // 약관 동의 제어c
     if (!cAll.checked) {
         alert("약관에 동의하세요")
         return;
