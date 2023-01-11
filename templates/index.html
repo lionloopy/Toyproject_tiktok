@@ -7,6 +7,9 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/2c827c8cca.js" crossorigin="anonymous"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <style>
         body {
             background-color: black;
@@ -85,18 +88,20 @@
         alert("{{ msg }}")
         {% endif %}
         function sign_in() {
+            let email = $('#input-name').val();
+            let password = $('#input-password').val();
 
             $.ajax({
                 type: 'POST',
                 url: '/api/sign_in',
-                data: {email_give: $('#input-name').val(), pw_give: $('#input-password').val()},
+                data: {email_give: email, pw_give: password},
                 success: function (response) {
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token']);
                         //로그인이 정상적으로 된다면 token을 받아옵니다.
                         //이 토큰을 mytoken이라는 key값으로 쿠키에 저장합니다.
                         alert('로그인 완료!')
-                        window.location.href = '/index.html'
+                        window.location.href = '/'
                     } else {
                         alert(response['msg'])
                     }
@@ -123,7 +128,7 @@
                 </div>
 
                 <div class="form-floating pw-box">
-                    <input type="password" class="form-control" id="floatingPassword input-password" placeholder="Password">
+                    <input type="password" class="form-control" id="input-password" placeholder="Password">
                     <label for="floatingPassword">PW</label>
                 </div>
 

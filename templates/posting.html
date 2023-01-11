@@ -97,8 +97,30 @@
     <script>
         $(document).ready(function () {
             show_comments();
+
+        $(document).on("click", '.delete' , function () {
+
+            if (confirm("위 댓글을 삭제하시겠습니까?")) {
+               let number = $('#comments').data("id");
+               let comments = $('#comments').val();
+
+               $.ajax({
+                    type: "POST",
+                    url: "/comment/delete",
+                    data: {number_give: number, comments_give: comments},
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.reload()
+                    }
+               });
+
+            } else {
+                alert("취소하였습니다!");
+           }
+            //show_music();
         });
 
+        });
         function posting() {
             if (confirm("코멘트를 저장하시겠습니까?")) {
                 let comment = $('#comment').val()
@@ -125,16 +147,44 @@
                 success: function (response) {
                     let rows = response['comments']
                     for(let i = 0; i < rows.length; i++) {
-                        let comment = rows[i]['comment']
 
-                        let temp_html = `<li class="list-group-item"><span class="fw-bold">퐝원준 : </span> ${comment}</li>`
+                        let comment = rows[i]['comment']
+                        let number = rows[i]['num']
+
+                        let temp_html = `<li class="list-group-item d-flex justify-content-between">
+                                            <span id="comments" data-id="${number}">퐝원준 : ${comment} </span>
+                                            <button type="button" class="btn btn-danger delete">삭제</button>
+                                         </li>`
 
                         $('#comments-list').append(temp_html)
                     }
                 }
             });
+
+            // $('.delete').click(function(){
+            //     alert("삭제 할거지?")
+            // });
+
+
        }
 
+       // function show_music() {
+       //      $.ajax({
+       //          type: "GET",
+       //          url: "/posting/music",
+       //          data: {},
+       //          success: function (response) {
+       //              let rows = response['comments']
+       //              for(let i = 0; i < rows.length; i++) {
+       //                  let comment = rows[i]['comment']
+       //
+       //                  let temp_html = `<li class="list-group-item"><span class="fw-bold">퐝원준 : </span> ${comment}</li>`
+       //
+       //                  $('#comments-list').append(temp_html)
+       //              }
+       //          }
+       //      });
+       // }
 
     </script>
 
