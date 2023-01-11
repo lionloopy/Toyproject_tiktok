@@ -1,0 +1,69 @@
+
+
+        .wrap{
+            width: 95%;
+            max-width: 1200px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            padding: 50px;
+            margin: auto;
+        }
+
+        .post {
+            width: 95%;
+            max-width: 900px;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .post >.music_card {
+            text-align: center;
+
+            float: top;
+        }
+
+        .post >.music_card >.album {
+            width: 95%;
+            max-width: 300px;
+            padding: 20px;
+            margin: 0 0 20px 0;
+
+            display: flex;
+
+            float: left;
+        }
+
+        .post >.music_card > .card {
+            max-width: 500px;
+            width: 95%;
+            margin: 20px;
+            padding: 25px;
+
+            float: right;
+
+            text-align: center;
+        }
+
+        .post > .music_comments {
+            margin-top: 20px;
+
+            float: bottom;
+        }
+
+        .post > .music_comments >.posting {
+            max-width: 1200px;
+            width: 95%;
+            margin: 20px;
+        }
+
+        .post > .music_comments >.comments {
+            max-width: 1200px;
+            width: 95%;
+
+            margin: 0 0 0 20px;
+
+            flex: auto;
+        }
+
