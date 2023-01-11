@@ -1,5 +1,3 @@
-import urllib.parse
-
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
@@ -26,7 +24,6 @@ data = requests.get('https://www.melon.com/landing/playList.htm?type=djc&plylstT
 soup = BeautifulSoup(data.text, 'html.parser')
 
 a = soup.select('#frm > div > table > tbody > tr')
-b = input('')
 for music in a:
     rank = music.select_one('div > span.rank').text[0:2].strip()
     image = music.select_one('div > a > img').img
