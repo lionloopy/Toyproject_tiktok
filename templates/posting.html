@@ -62,15 +62,6 @@
             text-align: center;
         }
 
-        /*.post >.music_card .desc {*/
-        /*    max-width: 500px;*/
-        /*    width: 95%;*/
-        /*    margin: 0 0 30px 30px;*/
-
-        /*    float: right;*/
-        /*    display: flex;*/
-        /*}*/
-
         .post > .music_comments {
             margin-top: 20px;
 
@@ -96,31 +87,37 @@
 
     <script>
         $(document).ready(function () {
+            show_detail();
             show_comments();
+        });
+        function show_detail() {
+            $.ajax({
+                type: "GET",
+                url: "/posting",
+                data: {},
+                success: function (response) {
+                    let rows = response['musics']
+                    for(let i = 0; i < rows.length; i++) {
 
-        $(document).on("click", '.delete' , function () {
+                        let image = rows[i]['image']
+                        let title = rows[i]['title']
+                        let singer = rows[i]['singer']
+                        let album = rows[i]['album']
 
-            if (confirm("위 댓글을 삭제하시겠습니까?")) {
-               let number = $('#comments').data("id");
-               let comments = $('#comments').val();
+                        let temp_html1 = `<img src=${image} alt="앨범 img" height="300" width="350">`
+                        let temp_html2 = `<h3 class="card-title"> ${singer} - ${title}</h3>
+                                          <p class="card-text text-muted">
+                                            앨범명 : ${album}
+                                          </p>`
 
-               $.ajax({
-                    type: "POST",
-                    url: "/comment/delete",
-                    data: {number_give: number, comments_give: comments},
-                    success: function (response) {
-                        alert(response["msg"]);
-                        window.location.reload()
+                        $('.album').append(temp_html1);
+                        $('.card-body').append(temp_html2);
+
                     }
-               });
+                }
+            });
+        }
 
-            } else {
-                alert("취소하였습니다!");
-           }
-            //show_music();
-        });
-
-        });
         function posting() {
             if (confirm("코멘트를 저장하시겠습니까?")) {
                 let comment = $('#comment').val()
@@ -157,9 +154,32 @@
                                          </li>`
 
                         $('#comments-list').append(temp_html)
+
                     }
                 }
             });
+
+            $(document).on("click", '.delete' , function () {
+
+            if (confirm("위 댓글을 삭제하시겠습니까?")) {
+               let number = $('#comments').data("id");
+               let comments = $('#comments').val();
+
+               $.ajax({
+                    type: "POST",
+                    url: "/comment/delete",
+                    data: {number_give: number, comments_give: comments},
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.reload()
+                    }
+               });
+
+            } else {
+                alert("취소하였습니다!");
+           }
+            //show_music();
+        });
 
             // $('.delete').click(function(){
             //     alert("삭제 할거지?")
@@ -196,15 +216,12 @@
 
             <div class="music_card">
                 <div class="album">
-                    <img src="https://i.ytimg.com/vi/2Kff0U8w-aU/maxresdefault.jpg" alt="뉴진스 앨범 omg" height="300" width="350">
+
                 </div>
 
                  <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">뉴진스 - ditto</h3>
-                        <p class="card-text text-muted">
-                            앨범명 : "OMG"
-                        </p>
+
                     </div>
                 </div>
 

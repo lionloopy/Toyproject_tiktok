@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>list</title>
+
+    <style>
+        .mytitle {
+            color: white;
+            width: 300px;
+            height: 300px;
+            background-image: url('https://cdnimg.melon.co.kr/svc/user_images/plylst/2018/12/478/7/453051002_org.jpg?tm=20221217101211/melon/resize/x262/quality/80/optimize');
+            background-position: center;
+            background-size: cover;
+
+            border-radius: 10px;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .wrap {
+            margin: 10px auto;
+            width: 300px;
+        }
+
+        .table1 {
+            text-align: center;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            listing();
+        });
+
+        function listing() {
+            $.ajax({
+                type: 'GET',
+                url: '/music',
+                data: {},
+                success: function (response) {
+                    let rows = response['musics']
+
+                    for (let i = 0; i < 50; i++) {
+                        let rank = rows[i]['rank'];
+                        let image = rows[i]['image'];
+                        let title = rows[i]['title'];
+                        let singer = rows[i]['singer'];
+                        let album = rows[i]['album'];
+
+                        let temp_html = `<tr id="table" onclick="show_detail()">
+                                                <th scope="col" id="num" style="width: 80px;">${rank}</th>
+                                                <th id="image" scope="col" colspan="3" style="width: 25px;height: 25px;"><img src="${image}"></th>
+                                                <th scope="col" id="title" style="width: 200px">${title}</th>
+                                                <th id="singer" scope="col" style="width: 50px">${singer}</th>
+                                                <th id="album" scope="col">${album}</th>
+                                         </tr>`
+                        $('#music-box').append(temp_html)
+                    }
+                }
+
+            })
+        }
+
+        function show_detail() {
+            alert("안녕!!")
+            window.location.href='/page/detail?id=${rank}'
+        }
+
+    </script>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="mytitle">
+        <table></table>
+    </div>
+</div>
+<div class="table1">
+    <table class="table table-striped table-hover" style="width: 75%; margin: auto">
+        <thead>
+        <tr id="table">
+            <th scope="col" id="num" style="width: 80px;">번호</th>
+            <th id="img" scope="col" colspan="3"></th>
+            <th scope="col" id="title" style="width: 35%">곡정보</th>
+            <th id="singer" scope="col" style="width: 200px">가수</th>
+            <th id="album" scope="col">앨범</th>
+        </tr>
+        </thead>
+        <thead id="card-box">
+        <tbody id="music-box">
+        </tbody>
+        </thead>
+
+    </table>
+
+</div>
+</body>
+
+</html>
