@@ -143,8 +143,8 @@ cAll.addEventListener("change", () => {
 checkArea.addEventListener("change", () => {
     if (c1.checked && c2.checked && c3.checked) {
         cAll.checked = true
-    }
-    if (cAll.checked) {
         btnPopClose.click()
+    } else {
+        cAll.checked = false
     }
 })
