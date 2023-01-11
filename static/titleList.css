@@ -1,0 +1,68 @@
+
+        *{
+          color:white;
+        }
+
+        body{
+          background-color: black;
+          color:white;
+        }
+
+        .table1 {
+            text-align: center;
+        }
+
+        .logo {
+            width: 400px;
+            height: 200px;
+            background-color: green;
+            background-image: url("https://th.bing.com/th/id/R.7e7965cef3528e9e8cb2047bb63eca42?rik=0oFqa%2flgAFXRyQ&riu=http%3a%2f%2fwww.upinews.kr%2fdata%2fupi%2fimage%2f2020%2f03%2f05%2fupi202003050217.515x.null.jpg&ehk=PylAcCA%2bLLEnO8OZpfid8R0Uyfqke6SAqb0GU1whGdE%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1");
+            background-repeat: no-repeat;
+            background-size: cover;
+            backgroun-position: center;
+            margin:50px auto;
+            margin-bottom: 60px;
+
+        }
+
+        .chart-text th{
+            line-height:137px;
+            height:137px;
+            min-height: 95%;
+        }
+
+        .chart-text{
+            max-width:95%;
+            width:1200px;
+            margin: auto;
+        }
+
+        .chart-text:hover{
+            background-color: black;
+            opacity: 0.6;
+            cursor:pointer;
+        }
+
+        .album-text{
+            font-size: 10px;
+        }
+
+        .table-striped{
+            max-width:95%;
+            width:1200px;
+            margin: auto;
+        }
+
+        @media screen and (max-width: 768px){
+            *{
+                font-size: 4px;
+            }
+
+            .album-text{
+                display: none;
+            }
+
+            #album-chart{
+                display: none;
+            }
+        }
