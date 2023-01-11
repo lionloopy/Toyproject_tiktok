@@ -26,14 +26,12 @@ soup = BeautifulSoup(data.text, 'html.parser')
 a = soup.select('#frm > div > table > tbody > tr')
 for music in a:
     rank = music.select_one('div > span.rank').text[0:2].strip()
-    image = music.select_one('div > a > img').img
     title = music.select_one('div > div > div.ellipsis.rank01 > span > a').text.strip()
     singer = music.select_one('div > div > div.ellipsis.rank02 > a').text
-    album = music.select_one('div > div > div > a').text.strip()
+    album = music.select_one('td:nth-child(6) > div > div > div > a').text
     if music is not None:
         doc = {
             'rank':rank,
-            'image':image,
             'title':title,
             'singer':singer,
             'album':album
