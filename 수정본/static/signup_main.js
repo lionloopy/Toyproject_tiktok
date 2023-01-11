@@ -145,6 +145,6 @@ checkArea.addEventListener("change", () => {
         cAll.checked = true
         btnPopClose.click()
     } else {
-        cAll.checked = false
+        cAll.checked = true
     }
 })
