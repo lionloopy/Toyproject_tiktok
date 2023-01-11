@@ -61,7 +61,7 @@ function save_account() {
     }
 
     // 약관 동의 제어
-    if(!cAll.checked){
+    if (!cAll.checked) {
         alert("약관에 동의하세요")
         return;
     }
@@ -74,7 +74,7 @@ function save_account() {
         data: {name_give: name, email_give: eMail, password_give: password},
         success: function (response) {
             alert(response['msg'])
-            window.location.reload()
+            window.location.href = 'http://localhost:5000/'
         }
     })
 }
