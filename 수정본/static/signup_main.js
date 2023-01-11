@@ -4,9 +4,8 @@ $(document).ready(function () {
 })
 
 function get_user() {
-
     $.ajax({
-        type: 'GET', url: '/signin', data: {}, success: function (response) {
+        type: 'GET', url: '/signin', data: {email:email}, success: function (response) {
             userList = response.users
         }
     })
