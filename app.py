@@ -1,3 +1,5 @@
+import urllib.parse
+
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
@@ -15,6 +17,7 @@ def home():
 @app.route("/music", methods=["POST"])
 def music_post():
     url_receive = request.form['url_give']
+    img_receive = request.form['img_give']
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
@@ -23,19 +26,20 @@ data = requests.get('https://www.melon.com/landing/playList.htm?type=djc&plylstT
 soup = BeautifulSoup(data.text, 'html.parser')
 
 a = soup.select('#frm > div > table > tbody > tr')
-
+b = input('')
 for music in a:
     rank = music.select_one('div > span.rank').text[0:2].strip()
     image = music.select_one('div > a > img').img
     title = music.select_one('div > div > div.ellipsis.rank01 > span > a').text.strip()
     singer = music.select_one('div > div > div.ellipsis.rank02 > a').text
-
+    album = music.select_one('div > div > div > a').text.strip()
     if music is not None:
         doc = {
             'rank':rank,
             'image':image,
             'title':title,
-            'singer':singer
+            'singer':singer,
+            'album':album
         }
         db.musics.insert_one(doc)
 
