@@ -1,0 +1,68 @@
+
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        .wrap {
+            width: 400px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .logo {
+            width: 400px;
+            height: 200px;
+            background-color: green;
+            margin-bottom: 60px;
+            background-image: url("https://th.bing.com/th/id/R.7e7965cef3528e9e8cb2047bb63eca42?rik=0oFqa%2flgAFXRyQ&riu=http%3a%2f%2fwww.upinews.kr%2fdata%2fupi%2fimage%2f2020%2f03%2f05%2fupi202003050217.515x.null.jpg&ehk=PylAcCA%2bLLEnO8OZpfid8R0Uyfqke6SAqb0GU1whGdE%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1");
+            background-repeat: no-repeat;
+            background-size: cover;
+            backgroun-position: center;
+        }
+
+        .login-box {
+            width: 400px;
+            height: 350px;
+            padding: 20px;
+            box-shadow: 0px 0px 3px 0px gray;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 15px;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin: 20px auto 30px auto;
+            background-color: white;
+            color: black;
+            font-weight: 900;
+        }
+
+        label {
+            color: black;
+        }
+
+        i {
+            color: black;
+        }
+
+        .btn-box {
+            display: flex;
+            flex-direction: row;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+
+        .btn-dark:hover {
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+        }
+
