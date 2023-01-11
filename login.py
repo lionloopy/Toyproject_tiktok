@@ -91,7 +91,7 @@ def web_signup_post():
 
 @app.route("/signin", methods=["GET"])
 def web_signup_get():
-    user_list = list(db.signup.find({}, {'_id': False}))
+    user_list = list(db.users.find({}, {'_id': False}))
     return jsonify({'users': user_list})
 
 
