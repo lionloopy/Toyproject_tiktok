@@ -6,10 +6,12 @@ app = Flask(__name__)
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 
+import requests
+from bs4 import BeautifulSoup
+
 client = MongoClient('mongodb+srv://yunseo:sparta@cluster0.6bemlvq.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
-# from bs4 import BeautifulSoup
 
 ##### 로그인
 SECRET_KEY = 'SPARTA'
@@ -68,6 +70,10 @@ db = client.dbsparta
 def sign_up():
     return render_template('signup_index.html')
 
+@app.route('/page/main')
+def page_main():
+    return render_template('titleList.html')
+
 
 @app.route("/api/signup", methods=["POST"])
 def web_signup_post():
@@ -116,6 +122,29 @@ def comment_post():
 def posting_get():
     comment_list = list(db.comments.find({}, {'_id': False}))
     return jsonify({'comments': comment_list})
+
+
+@app.route("/music", methods=["POST"])
+def music_post():
+    music_receive = request.form['music_give']
+    music_list = list(db.musics.find({}, {'_id': False}))
+    count = len(music_list)+1
+
+    doc = {
+        'heart':count,
+        'music':music_receive,
+        'count':0
+    }
+
+    db.musics.insert_one(doc)
+
+    return jsonify({'msg':'순위 정리 완료!'})
+
+
+@app.route("/musics", methods=["GET"])
+def music_get():
+    music_list = list(db.musics.find({},{'_id':False}))
+    return jsonify({'musics':music_list})
 
 
 # url = 'https://www.melon.com/landing/playList.htm?type=djc&plylstTypeCode=M20002&plylstSeq=453051002'
