@@ -20,8 +20,8 @@ function listing() {
                 let temp_html = `<tr id="table" class="chart-text" onclick="moveToPostingPage(${rank})">
                                                 <th scope="col" id="num" style="width: 80px;">${rank}</th>
                                                 <th id="image" scope="col" colspan="3" style="width: 25px;height: 25px;"><img src="${image}"></th>
-                                                <th scope="col" id="title" style="width: 200px">${title}</th>
-                                                <th id="singer" scope="col" style="width: 50px">${singer}</th>
+                                                <th scope="col" id="title" style="width: 200px" class="title-text">${title}</th>
+                                                <th id="singer" scope="col" style="width: 50px" class="title-text">${singer}</th>
                                                 <th id="album" scope="col" class="album-text">${album}</th>
                                          </tr>`
                 $('#music-box').append(temp_html)
