@@ -90,30 +90,44 @@
             show_detail();
             show_comments();
         });
+
+        function get_rank() {
+            const a = new URL(window.location.href);
+            const b = a.searchParams;
+            const rank = b.get('rank');
+            return rank
+        }
+
         function show_detail() {
-
-            let rank =
-
             $.ajax({
                 type: "GET",
                 url: "/posting",
                 data: {},
                 success: function (response) {
 
-                   let musics = response['musics'];
+                    let musics = response['musics'];
 
-                   for (let i = 0; i < musics.length; i++) {
-                       let rank = musics[i]['rank']
+                    for (let i = 0; i < 50; i++) {
+                        let rank = musics[i]['rank']
 
-                       // let temp_html1 = `<img src=${image} alt="앨범 img" height="300" width="350">`
-                       // let temp_html2 = `<h3 class="card-title"> ${singer} - ${title}</h3>
-                       //                    <p class="card-text text-muted">
-                       //                      앨범명 : ${album}
-                       //                    </p>`
-                       //
-                       //  $('.album').append(temp_html1);
-                       //  $('.card-body').append(temp_html2);
-                   }
+                        if (rank == get_rank()) {
+                            let image = musics[i]['image']
+                            let singer = musics[i]['singer']
+                            let title = musics[i]['title']
+                            let album = musics[i]['album']
+
+                            let temp_html1 = `<img src=${image} alt="앨범 img" height="300" width="350">`
+                            let temp_html2 = `<h3 class="card-title"> ${singer} - ${title}</h3>
+                                           <p class="card-text text-muted">
+                                             앨범명 : ${album}
+                                           </p>`
+
+                            $('.album').append(temp_html1);
+                            $('.card-body').append(temp_html2);
+
+                        }
+
+                    }
                 }
 
             });
@@ -125,7 +139,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/posting",
+                    url: "/posting/comments",
                     data: {comment_give: comment},
                     success: function (response) {
                         alert(response["msg"])
@@ -140,7 +154,7 @@
         function show_comments() {
             $.ajax({
                 type: "GET",
-                url: "/posting",
+                url: "/posting/comments_list",
                 data: {},
                 success: function (response) {
                     let rows = response['comments']
@@ -150,7 +164,7 @@
                         let number = rows[i]['num']
 
                         let temp_html = `<li class="list-group-item d-flex justify-content-between">
-                                            <span id="comments" data-id="${number}">퐝원준 : ${comment} </span>
+                                            <span id="comments" data-id="${number}">${comment} </span>
                                             <button type="button" class="btn btn-danger delete">삭제</button>
                                          </li>`
 
@@ -179,11 +193,8 @@
                 } else {
                     alert("취소하였습니다!");
                }
-                //show_music();
+
             });
-
-
-
 
        }
 
@@ -192,41 +203,43 @@
 
 <body>
 
-    <div class="wrap">
+<div class="wrap">
 
-        <div class="post">
+    <div class="post">
 
-            <div class="music_card">
-                <div class="album">
-
-                </div>
-
-                 <div class="card">
-                    <div class="card-body">
-
-                    </div>
-                </div>
+        <div class="music_card">
+            <div class="album">
 
             </div>
 
-            <div class="music_comments">
-                <div class="posting">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="이 음악 어땠어?" aria-label="댓글" id="comment">
-                        <button class="btn btn-outline-primary" type="button" id="comments-button" onclick="posting()">추가하기</button>
-                    </div>
-                </div>
+            <div class="card">
+                <div class="card-body">
 
-                <div class="comments">
-                    <ul class="list-group list-group-flush" id="comments-list">
-
-                    </ul>
                 </div>
             </div>
 
         </div>
 
+        <div class="music_comments">
+            <div class="posting">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="이 음악 어땠어?" aria-label="댓글" id="comment">
+                    <button class="btn btn-outline-primary" type="button" id="comments-button" onclick="posting()">
+                        추가하기
+                    </button>
+                </div>
+            </div>
+
+            <div class="comments">
+                <ul class="list-group list-group-flush" id="comments-list">
+
+                </ul>
+            </div>
+        </div>
+
     </div>
+
+</div>
 
 
 </body>

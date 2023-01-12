@@ -1,4 +1,4 @@
-from bson import ObjectId
+import bson
 import jwt
 import datetime
 import hashlib
@@ -124,57 +124,34 @@ def music_get():
     return jsonify({'musics': music_list})
 
 #### 상세페이지
-@app.route('/page/detail')
-def posting():
-   return render_template('posting.html')
+@app.route('/page/detail/')
+def detail():
+    music_list = list(db.musics.find({}, {'_id': False}))
+    return render_template('posting.html')
 
 @app.route("/posting", methods=["GET"])
-def posting_get():
+def posting_detail_get():
     music_list = list(db.musics.find({}, {'_id': False}))
-    # comment_list = list(db.comments.find({}, {'_id': False}))
     return jsonify({'musics': music_list})
 
-# @app.route("/posting_detail", methods=["GET"])
-# def posting_detail_get():
-#
-#     rank =
-#     music = db.musics.find_one({'rank': rank})
-#
-#     # comment_list = list(db.comments.find({}, {'_id': False}))
-#
-#     return jsonify({'musics': music_list})
-
-
-@app.route("/posting", methods=["POST"])
+@app.route("/posting/comments", methods=["POST"])
 def comment_post():
-    # name_receive = request.form['name_give']
     comment_receive = request.form['comment_give']
     comment_list = list(db.comments.find({}, {'_id': False}))
     count = len(comment_list) + 1
 
     doc = {
-        'num': count,
-        'comment': comment_receive
+         'num': count,
+         'comment': comment_receive
     }
     db.comments.insert_one(doc)
 
     return jsonify({'msg': '저장되었습니다!'})
 
-@app.route("/posting/delete", methods=["POST"])
-def comment_delete():
-
-    number_receive = request.form['number_give']
-    comments_receive = request.form['comments_give']
-
-    doc = {
-        'num' : number_receive,
-        'comment' : comments_receive
-    }
-
-    db.comments.delete_one(doc)
-
-    return jsonify({'msg': '삭제되었습니다!'})
-
+@app.route("/posting/comments_list", methods=["GET"])
+def posting_comments_list_get():
+    comments_list = list(db.comments.find({}, {'_id': False}))
+    return jsonify({'comments': comments_list})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)

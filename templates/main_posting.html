@@ -60,7 +60,7 @@
                         let singer = rows[i]['singer'];
                         let album = rows[i]['album'];
 
-                        let temp_html = `<tr id="table" onclick="window.location.href='/page/detail?${rank}'">
+                        let temp_html = `<tr id="table" onclick="moveToPostingPage(${rank})">
                                                 <th scope="col" id="num" style="width: 80px;">${rank}</th>
                                                 <th id="image" scope="col" colspan="3" style="width: 25px;height: 25px;"><img src="${image}"></th>
                                                 <th scope="col" id="title" style="width: 200px">${title}</th>
@@ -68,13 +68,16 @@
                                                 <th id="album" scope="col">${album}</th>
                                          </tr>`
                         $('#music-box').append(temp_html)
+
                     }
                 }
             })
         }
-         // function show_detail() {
-         //    // window.location.href='/page/detail?'
-         // }
+        const moveToPostingPage = (rank) => {
+            let a = new URL(`http://localhost:5000/page/detail?rank=${rank}`)
+            window.location.href = a
+        }
+
 
     </script>
 </head>
