@@ -23,7 +23,7 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload['id']})
-        return render_template('index.html', user_info=user_info)
+        return render_template('login.html', user_info=user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for('login', msg='로그인 시간이 만료되었습니다.'))
     except jwt.exceptions.DecodeError:
@@ -33,7 +33,7 @@ def home():
 @app.route('/login')
 def login():
     msg = request.args.get('msg')
-    return render_template('index.html', msg=msg)
+    return render_template('login.html', msg=msg)
 
 
 # 로그인 기능
@@ -74,7 +74,6 @@ def sign_up():
 @app.route('/page/main')
 def page_main():
     return render_template('titleList.html')
-
 
 @app.route("/api/signup", methods=["POST"])
 def web_signup_post():
@@ -138,6 +137,7 @@ def music_get():
 @app.route('/page/detail')
 def posting():
    return render_template('posting.html')
+
 
 @app.route("/posting", methods=["GET"])
 def posting_get():
