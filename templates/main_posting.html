@@ -60,7 +60,7 @@
                         let singer = rows[i]['singer'];
                         let album = rows[i]['album'];
 
-                        let temp_html = `<tr id="table" onclick="show_detail(${rank})">
+                        let temp_html = `<tr id="table" onclick="window.location.href='/page/detail?${rank}'">
                                                 <th scope="col" id="num" style="width: 80px;">${rank}</th>
                                                 <th id="image" scope="col" colspan="3" style="width: 25px;height: 25px;"><img src="${image}"></th>
                                                 <th scope="col" id="title" style="width: 200px">${title}</th>
@@ -72,9 +72,9 @@
                 }
             })
         }
-         function show_detail() {
-            // window.location.href='/page/detail?'
-         }
+         // function show_detail() {
+         //    // window.location.href='/page/detail?'
+         // }
 
     </script>
 </head>
