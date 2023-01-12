@@ -190,6 +190,23 @@
             }
         }
 
+        function delete_comment(comment) {
+            if (confirm("코멘트를 삭제하시겠습니까?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/comment/delete",
+                    data: {comment_give: comment},
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.reload()
+                    }
+                });
+            } else {
+                alert("취소하였습니다!")
+            }
+
+        }
+
         function show_comments() {
             $.ajax({
                 type: "GET",
@@ -204,7 +221,7 @@
 
                         let temp_html = `<li class="list-group-item d-flex justify-content-between">
                                             <span id="comments" data-id="${number}">${comment} </span>
-                                            <button type="button" class="btn btn-danger delete" onclick="delete(${number})">삭제</button>
+                                            <button type="button" class="btn btn-danger delete" onclick="delete_comment('${comment}')">삭제</button>
                                          </li>`
 
                         $('#comments-list').append(temp_html)
@@ -212,32 +229,10 @@
                     }
                 }
             });
-
-            $(document).on("click", '.delete', function () {
-
-                if (confirm("위 댓글을 삭제하시겠습니까?")) {
-                    let number = $('#comments').data("id");
-                    let comments = $('#comments').val();
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/comment/delete",
-                        data: {number_give: number, comments_give: comments},
-                        success: function (response) {
-                            alert(response["msg"]);
-                            window.location.reload()
-                        }
-                    });
-
-                } else {
-                    alert("취소하였습니다!");
-                }
-
-            });
-
         }
 
     </script>
+</head>
 
 <body>
 
