@@ -11,9 +11,233 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-    <link href="../static/posting.css" rel="stylesheet">
+    <!--    <link href="../static/posting.css" rel="stylesheet">-->
 
     <title>상세 페이지</title>
+    <style>
+
+        body {
+            background-color: black;
+            color: black;
+        }
+
+        .wrap {
+            width: 95%;
+            max-width: 1200px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            padding: 50px;
+            margin: 0px auto 0px auto;
+        }
+
+        .logo-box {
+            width: 400px;
+            height: 200px;
+            background-image: url("https://th.bing.com/th/id/R.7e7965cef3528e9e8cb2047bb63eca42?rik=0oFqa%2flgAFXRyQ&riu=http%3a%2f%2fwww.upinews.kr%2fdata%2fupi%2fimage%2f2020%2f03%2f05%2fupi202003050217.515x.null.jpg&ehk=PylAcCA%2bLLEnO8OZpfid8R0Uyfqke6SAqb0GU1whGdE%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            margin: 0 auto 20px auto;
+
+        }
+
+        .post {
+            width: 95%;
+            max-width: 900px;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .post > .music_card {
+            text-align: center;
+
+            float: top;
+        }
+
+        .post > .music_card > .album {
+            width: 95%;
+            max-width: 300px;
+            padding: 20px;
+            margin: 0 0 20px 0;
+
+            display: flex;
+
+            float: left;
+        }
+
+        .post > .music_card > .card {
+            max-width: 500px;
+            width: 95%;
+            margin: 20px;
+            padding: 25px;
+
+            float: right;
+
+            text-align: center;
+        }
+
+        .post > .music_comments {
+            margin-top: 20px;
+
+            float: bottom;
+        }
+
+        .post > .music_comments > .posting {
+            max-width: 1200px;
+            width: 95%;
+            margin: 20px;
+        }
+
+        .post > .music_comments > .comments {
+            max-width: 1200px;
+            width: 95%;
+
+            margin: 0 0 0 20px;
+
+            flex: auto;
+        }
+
+        .centerbox {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #comments-list {
+            border-radius: 4px;
+        }
+
+
+    </style>
+    <script>
+
+        $(document).ready(function () {
+            show_detail();
+            show_comments();
+        });
+
+        function get_rank() {
+            const a = new URL(window.location.href);
+            const b = a.searchParams;
+            const rank = b.get('rank');
+            return rank
+        }
+
+        function show_detail() {
+            $('.allbox').empty()
+            $.ajax({
+                type: "GET",
+                url: "/posting",
+                data: {},
+                success: function (response) {
+
+                    let musics = response['musics'];
+
+                    for (let i = 0; i < 50; i++) {
+                        let rank = musics[i]['rank']
+
+                        if (rank == get_rank()) {
+                            let image = musics[i]['image']
+                            let singer = musics[i]['singer']
+                            let title = musics[i]['title']
+                            let album = musics[i]['album']
+
+                            let temp_html1 = `<div class="card text-center">
+                          <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                              <li class="nav-item">
+                                <a class="nav-link active" aria-current="true" href="#">앨범</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="https://www.tiktok.com/foryou?lang=ko-KR" style="color:#0AC9FF">틱톡 바로가기</a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <img src=${image} class="card-img-top" alt="..." style="heigh:200px; width:200px;">
+                            <div style="margin-top:20px;">
+                            <h5 class="card-text">${title} - ${singer}</h5>
+                            <p>${album}</a>
+                            </div>
+                          </div>
+                        </div>`
+                            $('.allbox').append(temp_html1);
+
+                        }
+
+                    }
+                }
+
+            });
+        }
+
+        function posting() {
+            if (confirm("코멘트를 저장하시겠습니까?")) {
+                let comment = $('#comment').val()
+
+                $.ajax({
+                    type: "POST",
+                    url: "/posting/comments",
+                    data: {comment_give: comment},
+                    success: function (response) {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
+                });
+            } else {
+                alert("취소하였습니다!");
+            }
+        }
+
+        function show_comments() {
+            $.ajax({
+                type: "GET",
+                url: "/posting/comments_list",
+                data: {},
+                success: function (response) {
+                    let rows = response['comments']
+                    for (let i = 0; i < rows.length; i++) {
+
+                        let comment = rows[i]['comment']
+                        let number = rows[i]['num']
+
+                        let temp_html = `<li class="list-group-item d-flex justify-content-between">
+                                            <span id="comments" data-id="${number}">${comment} </span>
+                                            <button type="button" class="btn btn-danger delete" onclick="delete(${number})">삭제</button>
+                                         </li>`
+
+                        $('#comments-list').append(temp_html)
+
+                    }
+                }
+            });
+
+            $(document).on("click", '.delete', function () {
+
+                if (confirm("위 댓글을 삭제하시겠습니까?")) {
+                    let number = $('#comments').data("id");
+                    let comments = $('#comments').val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/comment/delete",
+                        data: {number_give: number, comments_give: comments},
+                        success: function (response) {
+                            alert(response["msg"]);
+                            window.location.reload()
+                        }
+                    });
+
+                } else {
+                    alert("취소하였습니다!");
+                }
+
+            });
+
+        }
+
+    </script>
 
 <body>
 
@@ -23,6 +247,7 @@
         <a href='http://localhost:5000/'>
             <div class="logo-box"></div>
         </a>
+
         <div class="card text-center">
             <div class="allbox">
                 <div class="card-header">
@@ -45,20 +270,28 @@
                 </div>
             </div>
         </div>
-        <div class="input-group mb-3" id="comment-box">
-            <input type="text" class="form-control" placeholder="이 음악 어땠어?" aria-label="댓글" id="comment">
-            <button class="btn btn-danger" type="button" id="comments-button" onclick="posting()">추가하기</button>
+        <div class="centerbox">
+            <div class="input-group mb-3" id="comment-box">
+                <input type="text" class="form-control" placeholder="이 음악 어땠어?" aria-label="댓글" id="comment">
+                <button class="btn btn-danger" type="button" id="comments-button" onclick="posting()">추가하기</button>
+            </div>
+
         </div>
-    </div>
-    <div class="comments">
-        <ul class="list-group list-group-flush" id="comments-list"></ul>
+        <div class="comments">
+            <ul class="list-group list-group-flush" id="comments-list">
+                <!--                <li class="list-group-item d-flex justify-content-between">-->
+                <!--                    <span id="comments" data-id="${number}">${comment} </span>-->
+                <!--                    <button type="button" class="btn btn-danger delete">삭제</button>-->
+                <!--                </li>-->
+            </ul>
+        </div>
     </div>
 </div>
 </div>
 
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="../static/posting.js"></script>
+<!--<script src="../static/posting.js"></script>-->
 </body>
 
 </html>
