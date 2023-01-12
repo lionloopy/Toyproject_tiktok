@@ -153,5 +153,16 @@ def posting_comments_list_get():
     comments_list = list(db.comments.find({}, {'_id': False}))
     return jsonify({'comments': comments_list})
 
+@app.route("/posting/comments/delete", methods=["POST"])
+def comment_delete():
+    comment_receive = request.form['comments_give']
+
+    # query = db.comments.find_one({'comment': comment_receive})
+
+    db.comments.delete_one({'comment': comment_receive})
+
+    return jsonify({'msg': '삭제되었습니다!'})
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

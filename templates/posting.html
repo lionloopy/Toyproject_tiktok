@@ -164,7 +164,7 @@
                         let number = rows[i]['num']
 
                         let temp_html = `<li class="list-group-item d-flex justify-content-between">
-                                            <span id="comments" data-id="${number}">${comment} </span>
+                                            <div class="comments_list">${comment} </div>
                                             <button type="button" class="btn btn-danger delete">삭제</button>
                                          </li>`
 
@@ -177,13 +177,13 @@
             $(document).on("click", '.delete' , function () {
 
                 if (confirm("위 댓글을 삭제하시겠습니까?")) {
-                   let number = $('#comments').data("id");
-                   let comments = $('#comments').val();
+
+                   let comments = $('.comments_list').val();
 
                    $.ajax({
                         type: "POST",
-                        url: "/comment/delete",
-                        data: {number_give: number, comments_give: comments},
+                        url: "/posting/comments/delete",
+                        data: {comments_give: comments},
                         success: function (response) {
                             alert(response["msg"]);
                             window.location.reload()
@@ -197,8 +197,6 @@
             });
 
        }
-
-
     </script>
 
 <body>
