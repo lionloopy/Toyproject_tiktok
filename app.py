@@ -112,7 +112,7 @@ a = soup.select('#frm > div > table > tbody > tr')
 
 for music in a:
     for img in images:
-         b = music.select_one('div > a > img')
+        b = music.select_one('div > a > img')
     rank = music.select_one('div > span.rank').text[0:2].strip()
     title = music.select_one('div > div > div.ellipsis.rank01 > span > a').text.strip()
     singer = music.select_one('div > div > div.ellipsis.rank02 > a').text
@@ -151,8 +151,8 @@ def comment_post():
     count = len(comment_list) + 1
 
     doc = {
-         'num': count,
-         'comment': comment_receive
+        'num': count,
+        'comment': comment_receive
     }
     db.comments.insert_one(doc)
 

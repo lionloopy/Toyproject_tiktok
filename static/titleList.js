@@ -37,7 +37,7 @@ const moveToPostingPage = (rank) => {
     // window.location.href = c
     // console.log(c)
 
-    let a = new URL(`http://localhost:5000/page/detail?rank=${rank}`)
+    let a = new URL(`http://3.36.74.123:5000/page/detail?rank=${rank}`)
 
     window.location.href = a
 

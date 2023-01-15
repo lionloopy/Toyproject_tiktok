@@ -73,7 +73,7 @@ function save_account() {
         data: {name_give: name, email_give: eMail, password_give: password},
         success: function (response) {
             alert(response['msg'])
-            window.location.href = 'http://localhost:5000/'
+            window.location.href = '/'
         }
     })
 }
