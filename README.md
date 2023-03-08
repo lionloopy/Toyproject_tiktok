@@ -4,7 +4,7 @@ https://www.notion.so/337927dfd25a4a2bb3af19a905cf9ffa?v=8060545b968c4034b9be569
 <h1>💻 Skill </h1>
 <div>
    <img src="https://img.shields.io/badge/Javascript-61DAFB?style=flat&logo=Javascriptt&logoColor=white"/>
-   <img src="https://img.shields.io/badge/Python Query-FF4154?style=flat&logo=Python Query&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Python-FF4154?style=flat&logo=Python Query&logoColor=white"/>
    <img src="https://img.shields.io/badge/CSS3-FF5314?style=flat&logo=CSS3&logoColor=white"/>   
    </div></br>
    <h1>📌 기능 정리</h1>
